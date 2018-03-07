@@ -1,8 +1,8 @@
 {
   "name": "sun-mock-middleware",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a simple mock middleware for express",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "ava --verbose",
     "start": "node mock-server.js"
