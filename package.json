@@ -1,0 +1,28 @@
+{
+  "name": "sun-mock-middleware",
+  "version": "0.0.1",
+  "description": "a simple mock middleware for express",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava --verbose",
+    "start": "node mock-server.js"
+  },
+  "keywords": [
+    "express",
+    "mock",
+    "middleware"
+  ],
+  "author": "sunyongjian",
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "express": "^4.16.2",
+    "request": "^2.83.0"
+  },
+  "dependencies": {
+    "mockjs": "^1.0.1-beta3"
+  }
+}
