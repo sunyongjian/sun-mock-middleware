@@ -60,3 +60,4 @@ app.use(webpackHotMiddleware(compiler));
 ```
 
 然后在 proxy 代理的时候，api 的可以代理到 mock-server
+具体可以参考 [react-full-start](https://github.com/sunyongjian/react-full-start/blob/master/server/index.js)
