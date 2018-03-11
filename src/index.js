@@ -1,11 +1,36 @@
 const mockjs = require('mockjs');
+const fs = require('mz/fs');
 
 module.exports = (options) => {
   const { pathMap = {}, mockDir } = options;
-  return (req, res) => {
+  return async (req, res) => {
     const pathName = pathMap[req.path] ? pathMap[req.path] : req.path;
     const filename = `${mockDir}${pathName}`;
+    const { query } = req;
+    if (Object.keys(query).length) {// 存在 query，先当做文件夹读
+      try {
+        const fileList = await fs.readdir(filename);
+        const fileNameList = fileList.map((item) => {
+          return item.split('.')[0];
+        })
+        .filter(i => !!i)
+        .filter(i => i.includes('='))
+        .map(item => {
+          return item.split('&');
+        })
+        .reduce((res, cur) => {
+          const o = {};
+          for(const value of cur) {
+            const [ k, v ] = value.split("=");
+            o[k] = v;
+          }
+          return [...res, o]
+        }, [])
+        console.log(fileNameList, 'aa');
+      } catch (e) {
 
+      }
+    }
     try {
       delete require.cache[require.resolve(filename)];
       const module = require(filename);

@@ -23,6 +23,7 @@
     "request": "^2.83.0"
   },
   "dependencies": {
-    "mockjs": "^1.0.1-beta3"
+    "mockjs": "^1.0.1-beta3",
+    "mz": "^2.7.0"
   }
 }

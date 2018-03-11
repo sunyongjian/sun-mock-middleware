@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const SunMockMiddleware = require('./lib/index');
+const SunMockMiddleware = require('./src/index');
 
 const app = express();
 const ROOT_DIR = path.resolve(__dirname);
