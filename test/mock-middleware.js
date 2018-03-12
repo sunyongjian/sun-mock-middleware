@@ -9,7 +9,6 @@ test.cb('js', t => {
     url: '/api/example1',
 
   }, (err, res, body) => {
-    console.log(res, 'sss');
     if (err) t.fail('服务器响应超时！');
     if (res) {
       const { key } = JSON.parse(res.body);
@@ -83,4 +82,32 @@ test.cb('not found module', t => {
   t.end();
 });
 
+test.cb('define query file', t => {
+  request.get({
+    baseUrl: 'http://127.0.0.1:3333',
+    url: '/api/example?param=a&pa=b',
 
+  }, (err, res, body) => {
+    if (res) {
+      const { data } = JSON.parse(res.body);
+      t.truthy(data);
+    }
+  })
+  t.end();
+});
+
+
+
+test.cb('define query file', t => {
+  request.get({
+    baseUrl: 'http://127.0.0.1:3333',
+    url: '/api/example?zzz=1&xxx=2',
+
+  }, (err, res, body) => {
+    if (res) {
+      const { data } = JSON.parse(res.body);
+      t.truthy(data);
+    }
+  })
+  t.end();
+});

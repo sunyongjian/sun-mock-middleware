@@ -5,16 +5,15 @@ module.exports = (options) => {
   const { pathMap = {}, mockDir } = options;
   return async (req, res) => {
     const pathName = pathMap[req.path] ? pathMap[req.path] : req.path;
-    const filename = `${mockDir}${pathName}`;
+    let filename = `${mockDir}${pathName}`;
     const { query } = req;
     if (Object.keys(query).length) {// 存在 query，先当做文件夹读
       try {
-        const fileList = await fs.readdir(filename);
-        const fileNameList = fileList.map((item) => {
+        const fileNameList = await fs.readdir(filename);
+        const queryList = fileNameList.map((item) => {
           return item.split('.')[0];
         })
-        .filter(i => !!i)
-        .filter(i => i.includes('='))
+        .filter(i => !!i && i.includes('='))
         .map(item => {
           return item.split('&');
         })
@@ -26,9 +25,25 @@ module.exports = (options) => {
           }
           return [...res, o]
         }, [])
-        console.log(fileNameList, 'aa');
+        console.log(queryList)
+        const l = queryList.filter(q => {
+          const qs = Object.keys(q);
+          let f = true;
+          for (const k of qs) {
+            if (!req.query[k]) f = false;
+          }
+          return f;
+        })
+        if (l.length) {
+          const queryObj = l[0];
+          const queryFile = Object.keys(queryObj).reduce((res, cur) => {
+            return res += `${cur}=${queryObj[cur]}&`
+          }, '');
+          filename += '/' + queryFile.substr(0, queryFile.length -1);
+        }
+        console.log(l, filename, 'lll');
       } catch (e) {
-
+        console.log(e);
       }
     }
     try {
