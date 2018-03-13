@@ -111,3 +111,33 @@ test.cb('define query file', t => {
   })
   t.end();
 });
+
+test.cb('req.query 限定 > 文件名', t => {
+  request.get({
+    baseUrl: 'http://127.0.0.1:3333',
+    url: '/api/example?param=a&pa=b&c=2&d=4',
+
+  }, (err, res, body) => {
+    if (res) {
+      const { data } = JSON.parse(res.body);
+      t.is(data.fileName, 'c=1&param=a&pa=b');
+    }
+  })
+  t.end();
+});
+
+test.cb('query 相同，但是顺序不同', t => {
+  request.get({
+    baseUrl: 'http://127.0.0.1:3333',
+    url: '/api/example?param=a&pa=b&c=2',
+
+  }, (err, res, body) => {
+    if (res) {
+      const { data } = JSON.parse(res.body);
+      // should =>   t.is(data.fileName, 'param=a&pa=b&c=1');
+      //but 
+      t.is(data.fileName, 'c=1&param=a&pa=b');
+    }
+  })
+  t.end();
+});
