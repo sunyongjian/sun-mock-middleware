@@ -15,7 +15,7 @@ express mock middleware
 - 支持 mockjs
 - 自定义响应，灵活处理。返回函数，可以自行根据请求体，参数，做不同的处理。
 - 设置 cookie 和 status 码
-
+- 默认支持 get 和 post 请求。post 请求从 req.body 上获取参数，即你的 server 需要引入 bodyParser。
 - todo jsonp
 
 ## Usage
