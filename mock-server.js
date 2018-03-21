@@ -1,9 +1,16 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 const SunMockMiddleware = require('./src/index');
 
 const app = express();
 const ROOT_DIR = path.resolve(__dirname);
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json());
 
 app.use('/api', SunMockMiddleware({
   pathMap: {

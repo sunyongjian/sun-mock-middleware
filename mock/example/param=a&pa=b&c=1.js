@@ -3,7 +3,7 @@ module.exports = function A(req, res) {
   const { param } = req.query;
   let data = {
     key: 'read file name params',
-    fileName: 'param=a&pa=a&c=1',
+    fileName: 'param=a&pa=b&c=1',
   };
 
   return {

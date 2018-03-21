@@ -8,12 +8,22 @@ const queryToString = (queryObj) => {
   return queryFile.substr(0, queryFile.length - 1);
 }
 
+const getQuery = (req) => {
+  const { method } = req;
+  if (method === 'GET') {
+    return req.query;
+  }
+  if (method === 'POST' || method === 'PUT') {
+    return req.body;
+  }
+}
+
 module.exports = (options) => {
   const { pathMap = {}, mockDir } = options;
   return async (req, res) => {
     const pathName = pathMap[req.path] ? pathMap[req.path] : req.path;
     let filename = `${mockDir}${pathName}`;
-    const { query } = req;
+    const query = getQuery(req);
     if (Object.keys(query).length) {// 存在 query，先当做文件夹读
       try {
         const fileList = await fs.readdir(filename);
@@ -22,11 +32,9 @@ module.exports = (options) => {
           return item.split('.')[0];
         })
         const queryString = queryToString(query);
-        console.log(fileNameList, 'fileNameList');
         if (fileNameList.filter(file => file === queryString).length) {
           // query 跟文件名完全匹配
           filename += `/${queryString}`;
-
         } else {
           // 文件夹下所有文件名，遍历匹配部分符合的
           const queryList = fileNameList
@@ -42,12 +50,12 @@ module.exports = (options) => {
               }
               return [...res, o]
             }, []);
-          console.log(queryList, 'queryList');
+        
           const l = queryList.filter(q => {
             const qs = Object.keys(q);
             let f = true;
             for (const k of qs) {
-              if (!req.query[k]) f = false;
+              if (!query[k]) f = false;
             }
             return f;
           })

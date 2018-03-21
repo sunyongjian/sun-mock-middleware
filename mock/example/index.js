@@ -11,7 +11,7 @@ module.exports = function A(req, res) {
   if (param === 'b') {
     data = require('./b');
   }
-
+  console.log(data, 'mock');
   return {
     data,
     cookies: {
